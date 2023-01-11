@@ -311,7 +311,6 @@ public:
 	}
 };
 
-#ifndef MASTER_GOLD
 class CCC_TimeFactor : public IConsole_Command {
 public:
 					CCC_TimeFactor	(LPCSTR N) : IConsole_Command(N) {}
@@ -322,6 +321,26 @@ public:
 		Device.time_factor	(time_factor);
 	}
 };
+
+class CCC_Money : public IConsole_Command
+{
+public:
+	CCC_Money(LPCSTR N) : IConsole_Command(N) { };
+	virtual void Execute(LPCSTR money)
+	{
+		if (!g_pGameLevel)
+		{
+			Log("Error: No game level!");
+			return;
+		}
+
+		CActor* actor = smart_cast<CActor*>(Level().CurrentEntity());
+		int	m_iMoney = (int)atoi(money);
+		if (actor)
+			Actor()->set_money(Actor()->get_money() + m_iMoney, false);
+	}
+};
+#ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
 //-----------------------------------------------------------------------
@@ -627,7 +646,6 @@ public:
 };
 
 
-#ifndef MASTER_GOLD
 class CCC_Script : public IConsole_Command {
 public:
 	CCC_Script(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = true; };
@@ -679,6 +697,7 @@ public:
 		}
 	}
 };
+#ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
 #ifdef DEBUG
@@ -927,7 +946,6 @@ public:
 	  }
 };
 
-#ifdef DEBUG
 class CCC_PHGravity : public IConsole_Command {
 public:
 		CCC_PHGravity(LPCSTR N) :
@@ -955,6 +973,7 @@ public:
 	}
 	
 };
+#ifdef DEBUG
 #endif // DEBUG
 
 class CCC_PHFps : public IConsole_Command {
@@ -1003,7 +1022,6 @@ struct CCC_ClearSmartCastStats : public IConsole_Command {
 };
 #endif
 
-#ifndef MASTER_GOLD
 #	include "game_graph.h"
 struct CCC_JumpToLevel : public IConsole_Command {
 	CCC_JumpToLevel(LPCSTR N) : IConsole_Command(N)  {};
@@ -1026,6 +1044,7 @@ struct CCC_JumpToLevel : public IConsole_Command {
 		Msg							("! There is no level \"%s\" in the game graph!",level);
 	}
 };
+#ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
 #include "GamePersistent.h"
@@ -1385,8 +1404,8 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_weapon",			&psHUD_Flags,	HUD_WEAPON);
 	CMD3(CCC_Mask,				"hud_info",				&psHUD_Flags,	HUD_INFO);
 
-#ifndef MASTER_GOLD
 	CMD3(CCC_Mask,				"hud_draw",				&psHUD_Flags,	HUD_DRAW);
+#ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 	// hud
 	psHUD_Flags.set(HUD_CROSSHAIR,		true);
@@ -1397,9 +1416,9 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_crosshair",		&psHUD_Flags,	HUD_CROSSHAIR);
 	CMD3(CCC_Mask,				"hud_crosshair_dist",	&psHUD_Flags,	HUD_CROSSHAIR_DIST);
 
-#ifdef DEBUG
 	CMD4(CCC_Float,				"hud_fov",				&psHUD_FOV,		0.1f,	1.0f);
 	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
+#ifdef DEBUG
 #endif // DEBUG
 
 	// Demo
@@ -1490,23 +1509,24 @@ void CCC_RegisterCommands()
 	CMD1(CCC_PHFps,				"ph_frequency"																					);
 	CMD1(CCC_PHIterations,		"ph_iterations"																					);
 
-#ifdef DEBUG
 	CMD1(CCC_PHGravity,			"ph_gravity"																					);
 	CMD4(CCC_FloatBlock,		"ph_timefactor",				&phTimefactor				,			0.0001f	,1000.f			);
 	CMD4(CCC_FloatBlock,		"ph_break_common_factor",		&phBreakCommonFactor		,			0.f		,1000000000.f	);
 	CMD4(CCC_FloatBlock,		"ph_rigid_break_weapon_factor",	&phRigidBreakWeaponFactor	,			0.f		,1000000000.f	);
 	CMD4(CCC_Integer,			"ph_tri_clear_disable_count",	&ph_tri_clear_disable_count	,			0,		255				);
 	CMD4(CCC_FloatBlock,		"ph_tri_query_ex_aabb_rate",	&ph_tri_query_ex_aabb_rate	,			1.01f	,3.f			);
+#ifdef DEBUG
 #endif // DEBUG
 
 
-#ifndef MASTER_GOLD
 	CMD1(CCC_JumpToLevel,	"jump_to_level"		);
 	CMD3(CCC_Mask,			"g_god",			&psActorFlags,	AF_GODMODE	);
 	CMD3(CCC_Mask,			"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
-	CMD1(CCC_TimeFactor,	"time_factor");		
+	CMD1(CCC_TimeFactor,	"time_factor");
+	CMD1(CCC_Money,			"g_add_money");
+#ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
 	CMD3(CCC_Mask,		"g_autopickup",			&psActorFlags,	AF_AUTOPICKUP);

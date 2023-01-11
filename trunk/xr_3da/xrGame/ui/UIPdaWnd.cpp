@@ -8,6 +8,7 @@
 
 #include "../HUDManager.h"
 #include "../level.h"
+#include "../actor.h"
 #include "../game_cl_base.h"
 
 #include "UIStatic.h"
@@ -163,7 +164,14 @@ void CUIPdaWnd::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 void CUIPdaWnd::Show()
 {
 	InventoryUtilities::SendInfoToActor("ui_pda");
-
+	if( IsGameTypeSingle() )
+    {
+        CActor* pAct = smart_cast<CActor*>(Level().CurrentEntity());
+        if( pAct )
+		{
+            pAct->SetWeaponHideState(INV_STATE_BLOCK_ALL, true);
+        }
+    }
 	inherited::Show();
 }
 
@@ -173,7 +181,14 @@ void CUIPdaWnd::Hide()
 
 	InventoryUtilities::SendInfoToActor("ui_pda_hide");
 	HUD().GetUI()->UIMainIngameWnd->SetFlashIconState_(CUIMainIngameWnd::efiPdaTask, false);
-
+	if( IsGameTypeSingle() )
+    {
+        CActor* pAct = smart_cast<CActor*>(Level().CurrentEntity());
+        if( pAct )
+		{
+            pAct->SetWeaponHideState(INV_STATE_BLOCK_ALL, false);
+        }
+    }
 }
 
 void CUIPdaWnd::UpdateDateTime()

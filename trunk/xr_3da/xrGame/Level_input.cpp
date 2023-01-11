@@ -91,7 +91,7 @@ public:
 	}}
 }	vtune	;
 
-// Îáðàáîòêà íàæàòèÿ êëàâèø
+// ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ñˆ
 extern bool g_block_pause;
 
 void CLevel::IR_OnKeyboardPress	(int key)
@@ -168,6 +168,44 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		return;
 	}
 
+	switch (key) {
+	case DIK_NUMPAD0:
+	{
+		if (GameID() != GAME_SINGLE)
+		{
+			Msg("For this game type Demo Record is disabled.");
+			///				return;
+		};
+		Console->Hide();
+		Console->Execute("demo_record 1");
+	}
+	break;
+	case DIK_DIVIDE:
+		if( OnServer() ){
+//			float NewTimeFactor				= pSettings->r_float("alife","time_factor");
+			
+			if (GameID() == GAME_SINGLE)
+				Server->game->SetGameTimeFactor(g_fTimeFactor);
+			else
+			{
+				Server->game->SetEnvironmentGameTimeFactor(g_fTimeFactor);
+				Server->game->SetGameTimeFactor(g_fTimeFactor);
+			};
+		}
+		break;	
+	case DIK_MULTIPLY:
+		if( OnServer() ){
+			float NewTimeFactor				= 1000.f;
+			if (GameID() == GAME_SINGLE)
+				Server->game->SetGameTimeFactor(NewTimeFactor);
+			else
+			{
+				Server->game->SetEnvironmentGameTimeFactor(NewTimeFactor);
+//				Server->game->SetGameTimeFactor(NewTimeFactor);
+			};
+		}
+		break;
+	}
 #ifndef MASTER_GOLD
 	switch (key) {
 	case DIK_NUMPAD5: 
@@ -273,31 +311,6 @@ void CLevel::IR_OnKeyboardPress	(int key)
 	/**/
 
 
-	case DIK_DIVIDE:
-		if( OnServer() ){
-//			float NewTimeFactor				= pSettings->r_float("alife","time_factor");
-			
-			if (GameID() == GAME_SINGLE)
-				Server->game->SetGameTimeFactor(g_fTimeFactor);
-			else
-			{
-				Server->game->SetEnvironmentGameTimeFactor(g_fTimeFactor);
-				Server->game->SetGameTimeFactor(g_fTimeFactor);
-			};
-		}
-		break;	
-	case DIK_MULTIPLY:
-		if( OnServer() ){
-			float NewTimeFactor				= 1000.f;
-			if (GameID() == GAME_SINGLE)
-				Server->game->SetGameTimeFactor(NewTimeFactor);
-			else
-			{
-				Server->game->SetEnvironmentGameTimeFactor(NewTimeFactor);
-//				Server->game->SetGameTimeFactor(NewTimeFactor);
-			};
-		}
-		break;
 #endif
 #ifdef DEBUG
 	case DIK_F9:{
