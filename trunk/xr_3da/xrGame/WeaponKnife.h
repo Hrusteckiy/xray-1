@@ -14,6 +14,8 @@ protected:
 	MotionSVec			mhud_attack2;
 	MotionSVec			mhud_attack_e;
 	MotionSVec			mhud_attack2_e;
+	MotionSVec			mhud_sprint;
+	MotionSVec			mhud_moving;
 
 	HUD_SOUND			m_sndShot;
 
@@ -66,6 +68,9 @@ public:
 
 	virtual void		StartIdleAnim					();
 	virtual void		GetBriefInfo					(xr_string& str_name, xr_string& icon_sect_name, xr_string& str_count);
+
+	virtual void	PlayAnimIdle();
+	virtual void	onMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
 
 	DECLARE_SCRIPT_REGISTER_FUNCTION
 };
