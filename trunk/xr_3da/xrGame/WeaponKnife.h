@@ -8,14 +8,14 @@ private:
 	typedef CWeapon inherited;
 protected:
 	MotionSVec			mhud_idle;
+	MotionSVec			mhud_idle_moving;
+	MotionSVec			mhud_idle_sprint;
 	MotionSVec			mhud_hide;
 	MotionSVec			mhud_show;
 	MotionSVec			mhud_attack;
 	MotionSVec			mhud_attack2;
 	MotionSVec			mhud_attack_e;
 	MotionSVec			mhud_attack2_e;
-	MotionSVec			mhud_sprint;
-	MotionSVec			mhud_moving;
 
 	HUD_SOUND			m_sndShot;
 

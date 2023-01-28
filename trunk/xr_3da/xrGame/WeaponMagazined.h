@@ -24,7 +24,6 @@ protected:
 	HUD_SOUND		sndShot;
 	HUD_SOUND		sndEmptyClick;
 	HUD_SOUND		sndReload;
-	HUD_SOUND		sndReloadEmpty;
 	//звук текущего выстрела
 	HUD_SOUND*		m_pSndShotCurrent;
 
@@ -44,7 +43,6 @@ protected:
 		MotionSVec		mhud_idle;
 		MotionSVec		mhud_idle_aim;
 		MotionSVec		mhud_reload;	//
-		MotionSVec		mhud_reload_empty;	//
 		MotionSVec		mhud_hide;		//
 		MotionSVec		mhud_show;		//
 		MotionSVec		mhud_shots;		//

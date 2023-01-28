@@ -42,18 +42,16 @@ CWeaponMagazined::~CWeaponMagazined()
 	HUD_SOUND::DestroySound(sndShot);
 	HUD_SOUND::DestroySound(sndEmptyClick);
 	HUD_SOUND::DestroySound(sndReload);
-	HUD_SOUND::DestroySound(sndReloadEmpty);
 }
 
 
-void CWeaponMagazined::StopHUDSounds()
+void CWeaponMagazined::StopHUDSounds		()
 {
 	HUD_SOUND::StopSound(sndShow);
 	HUD_SOUND::StopSound(sndHide);
 	
 	HUD_SOUND::StopSound(sndEmptyClick);
 	HUD_SOUND::StopSound(sndReload);
-	HUD_SOUND::StopSound(sndReloadEmpty);
 
 	HUD_SOUND::StopSound(sndShot);
 //.	if(sndShot.enable && sndShot.snd.feedback)
@@ -73,12 +71,11 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	inherited::Load		(section);
 		
 	// Sounds
-	HUD_SOUND::LoadSound(section,"snd_draw", sndShow, m_eSoundShow);
-	HUD_SOUND::LoadSound(section,"snd_holster", sndHide, m_eSoundHide);
-	HUD_SOUND::LoadSound(section,"snd_shoot", sndShot, m_eSoundShot);
-	HUD_SOUND::LoadSound(section,"snd_empty", sndEmptyClick, m_eSoundEmptyClick);
-	HUD_SOUND::LoadSound(section,"snd_reload", sndReload, m_eSoundReload);
-	HUD_SOUND::LoadSound(section, "snd_reload_empty", sndReloadEmpty, m_eSoundReload);
+	HUD_SOUND::LoadSound(section,"snd_draw"		, sndShow		, m_eSoundShow		);
+	HUD_SOUND::LoadSound(section,"snd_holster"	, sndHide		, m_eSoundHide		);
+	HUD_SOUND::LoadSound(section,"snd_shoot"	, sndShot		, m_eSoundShot		);
+	HUD_SOUND::LoadSound(section,"snd_empty"	, sndEmptyClick	, m_eSoundEmptyClick	);
+	HUD_SOUND::LoadSound(section,"snd_reload"	, sndReload		, m_eSoundReload		);
 	
 	m_pSndShotCurrent = &sndShot;
 		
@@ -87,9 +84,6 @@ void CWeaponMagazined::Load	(LPCSTR section)
 	R_ASSERT			(m_pHUD);
 	animGet				(mhud.mhud_idle,		pSettings->r_string(*hud_sect, "anim_idle"));
 	animGet				(mhud.mhud_reload,	pSettings->r_string(*hud_sect, "anim_reload"));
-	if(pSettings->line_exist(*hud_sect, "anim_reload_empty"))
-		animGet	(mhud.mhud_reload_empty, pSettings->r_string(*hud_sect, "anim_reload_empty"));
-
 	animGet				(mhud.mhud_show,		pSettings->r_string(*hud_sect, "anim_draw"));
 	animGet				(mhud.mhud_hide,		pSettings->r_string(*hud_sect, "anim_holster"));
 	animGet				(mhud.mhud_shots,	pSettings->r_string(*hud_sect, "anim_shoot"));
@@ -645,10 +639,7 @@ void CWeaponMagazined::switch2_Empty()
 }
 void CWeaponMagazined::PlayReloadSound()
 {
-	if(iAmmoElapsed == 0)
-		PlaySound(sndReloadEmpty, get_LastFP());
-	else
-		PlaySound(sndReload,get_LastFP());
+	PlaySound	(sndReload,get_LastFP());
 }
 
 void CWeaponMagazined::switch2_Reload()
@@ -664,7 +655,6 @@ void CWeaponMagazined::switch2_Hiding()
 	CWeapon::FireEnd();
 
 	HUD_SOUND::StopSound(sndReload);
-	HUD_SOUND::StopSound(sndReloadEmpty);
 
 	PlaySound(sndHide, get_LastFP());
 
@@ -677,7 +667,6 @@ void CWeaponMagazined::switch2_Hidden()
 	CWeapon::FireEnd();
 
 	HUD_SOUND::StopSound(sndReload);
-	HUD_SOUND::StopSound(sndReloadEmpty);
 
 	if (m_pHUD) m_pHUD->StopCurrentAnimWithoutCallback();
 
@@ -987,11 +976,7 @@ void CWeaponMagazined::PlayAnimHide()
 void CWeaponMagazined::PlayAnimReload()
 {
 	VERIFY(GetState()==eReload);
-
-	if(iAmmoElapsed == 0)
-		m_pHUD->animPlay(random_anim(mhud.mhud_reload_empty), true, this, GetState());
-	else
-		m_pHUD->animPlay(random_anim(mhud.mhud_reload), true, this,GetState());
+	m_pHUD->animPlay(random_anim(mhud.mhud_reload),TRUE,this,GetState());
 }
 
 bool CWeaponMagazined::TryPlayAnimIdle()
