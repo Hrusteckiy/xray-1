@@ -322,6 +322,17 @@ public:
 	}
 };
 
+class CCC_UIReload : public IConsole_Command
+{
+public:
+	CCC_UIReload(LPCSTR N) : IConsole_Command(N) { bEmptyArgsHandled = TRUE; };
+	virtual void Execute(LPCSTR args)
+	{
+		if (&HUD())
+			HUD().OnScreenRatioChanged();// перезагружаем UI через эту команду
+	}
+};
+
 class CCC_Money : public IConsole_Command
 {
 public:
@@ -1525,6 +1536,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_Script,		"run_script");
 	CMD1(CCC_ScriptCommand,	"run_string");
 	CMD1(CCC_TimeFactor,	"time_factor");
+	CMD1(CCC_UIReload,		"ui_reload");
 	CMD1(CCC_Money,			"g_add_money");
 #ifndef MASTER_GOLD
 #endif // MASTER_GOLD
