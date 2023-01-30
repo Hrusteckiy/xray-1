@@ -124,6 +124,9 @@ void CUIMainIngameWnd::Init()
 	AttachChild					(&UIWeaponBack);
 	xml_init.InitStatic			(uiXml, "static_weapon", 0, &UIWeaponBack);
 
+	UIWeaponBack.AttachChild	(&UIWeaponBackText);
+	xml_init.InitStatic			(uiXml, "static_weapon_text", 0, &UIWeaponBackText);
+
 	UIWeaponBack.AttachChild	(&UIWeaponSignAmmo);
 	xml_init.InitStatic			(uiXml, "static_ammo", 0, &UIWeaponSignAmmo);
 	UIWeaponSignAmmo.SetElipsis	(CUIStatic::eepEnd, 2);
@@ -132,6 +135,7 @@ void CUIMainIngameWnd::Init()
 	xml_init.InitStatic			(uiXml, "static_wpn_icon", 0, &UIWeaponIcon);
 	UIWeaponIcon.SetShader		(GetEquipmentIconsShader());
 	UIWeaponIcon_rect			= UIWeaponIcon.GetWndRect();
+	UIWeaponIconScale			= uiXml.ReadAttribFlt("static_wpn_icon", 0, "scale", 1.f);
 	//---------------------------------------------------------
 	AttachChild					(&UIPickUpItemIcon);
 	xml_init.InitStatic			(uiXml, "pick_up_item", 0, &UIPickUpItemIcon);
@@ -356,8 +360,8 @@ void CUIMainIngameWnd::SetAmmoIcon (const shared_str& sect_name)
 		posx = 14.f;
 		UIWeaponIcon.SetTextureOffset(UI()->is_16_9_mode() ? posx_16 : posx, 5.0f);
 	}
-	UIWeaponIcon.SetWidth	(w);
-	UIWeaponIcon.SetHeight	(h);
+	UIWeaponIcon.SetWidth	(w*UIWeaponIconScale);
+	UIWeaponIcon.SetHeight	(h*UIWeaponIconScale);
 };
 
 void CUIMainIngameWnd::Update()
@@ -1137,7 +1141,7 @@ void CUIMainIngameWnd::UpdateActiveItemInfo()
 		item->GetBriefInfo			(str_name, icon_sect_name, str_count);
 
 		UIWeaponSignAmmo.Show		(true						);
-		UIWeaponBack.SetText		(str_name.c_str			()	);
+		UIWeaponBackText.SetText		(str_name.c_str			()	);
 		UIWeaponSignAmmo.SetText	(str_count.c_str		()	);
 		SetAmmoIcon					(icon_sect_name.c_str	()	);
 
@@ -1147,7 +1151,7 @@ void CUIMainIngameWnd::UpdateActiveItemInfo()
 	{
 		UIWeaponIcon.Show			(false);
 		UIWeaponSignAmmo.Show		(false);
-		UIWeaponBack.SetText		("");
+		UIWeaponBackText.SetText		("");
 		m_pWeapon					= NULL;
 	}
 }

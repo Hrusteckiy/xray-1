@@ -16,6 +16,7 @@
 #include "game_graph.h"
 
 #include "ui/UIMap.h"
+#include "ui/UIInventoryUtilities.h"
 #include "ui/UIXmlInit.h"
 //////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +47,7 @@ void CUIZoneMap::Init()
 	xml_init.InitStatic(uiXml, "minimap:level_frame", 0, &m_clipFrame);
 
 	xml_init.InitStatic(uiXml, "minimap:center", 0, &m_center);
+	xml_init.InitStatic(uiXml, "minimap:clock", 0, &UIStaticTimeString);
 	
 	
 	m_activeMap						= xr_new<CUIMiniMap>();
@@ -66,6 +68,7 @@ void CUIZoneMap::Render			()
 	m_clipFrame.Draw	();
 	m_background.Draw	();
 	m_compass.Draw		();
+	UIStaticTimeString.Draw		();
 }
 
 void CUIZoneMap::SetHeading		(float angle)
@@ -89,6 +92,7 @@ void CUIZoneMap::UpdateRadar		(Fvector pos)
 			m_pointerDistanceText.SetText("");
 		}
 	}
+	UIStaticTimeString.SetText(*InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes));
 }
 
 bool CUIZoneMap::ZoomIn()

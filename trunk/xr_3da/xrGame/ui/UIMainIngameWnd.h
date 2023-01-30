@@ -56,8 +56,10 @@ protected:
 	
 	//изображение оружия
 	CUIStatic			UIWeaponBack;
+	CUIStatic			UIWeaponBackText;
 	CUIStatic			UIWeaponSignAmmo;
 	CUIStatic			UIWeaponIcon;
+	float				UIWeaponIconScale;
 	Frect				UIWeaponIcon_rect;
 public:
 	CUIStatic*			GetPDAOnline					() { return &UIPdaOnline; };

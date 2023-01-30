@@ -14,6 +14,7 @@ class CUIZoneMap
 	float						m_fScale;
 
 	CUIStatic					m_background;
+	CUIStatic					UIStaticTimeString;
 	CUIStatic					m_center;
 	CUIStatic					m_compass;
 	CUIStatic					m_clipFrame;
