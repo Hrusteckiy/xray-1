@@ -1079,12 +1079,12 @@ public:
 
 		if (!pSettings->section_exist(string))
 		{
-			//Msg("! Section [%s] isn`t exist...", string);
+			Msg("! Section [%s] isn`t exist...", string);
 			return;
 		}
 		if (!pSettings->line_exist(string, "class") || !pSettings->line_exist(string, "inv_weight") || !pSettings->line_exist(string, "visual"))
 		{
-			//Msg("!Failed to load section!");
+			Msg("!Failed to load section!");
 			return;
 		}
 		if (auto* pCurActor = smart_cast<CActor*>(Level().CurrentControlEntity()))

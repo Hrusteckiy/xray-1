@@ -24,7 +24,7 @@
   <PropertyGroup Label="UserMacros">
     <xrBinRootDir>$(xrBuildDir)bin\</xrBinRootDir>
     <xrLibRootDir>$(xrBuildDir)lib\</xrLibRootDir>
-    <xrBinDir>$(xrBuildDir)bin\$(xrPlatform)\$(Configuration)\</xrBinDir>
+    <xrBinDir>D:\OG_1007\a\</xrBinDir>
     <xrLibDir>$(xrBuildDir)lib\$(xrPlatform)\$(Configuration)\</xrLibDir>
     <xrIntDir>$(xrBuildDir)intermediate\$(xrPlatform)\$(Configuration)\</xrIntDir>
     <xrSdkDir>$(SolutionDir)..\SDK\</xrSdkDir>
