@@ -37,6 +37,7 @@
 #include "MainMenu.h"
 #include "saved_game_wrapper.h"
 #include "level_graph.h"
+#include "ai_object_location.h"
 #include "../resourcemanager.h"
 #include "doug_lea_memory_allocator.h"
 #include "cameralook.h"
@@ -1058,6 +1059,40 @@ struct CCC_JumpToLevel : public IConsole_Command {
 #ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
+
+class CCC_Spawn_to_inventory : public IConsole_Command
+{
+public:
+	CCC_Spawn_to_inventory(LPCSTR N)
+		: IConsole_Command(N) {};
+	virtual void Execute(LPCSTR args)
+	{
+		if (!g_pGameLevel)
+			return;
+		if (!Level().CurrentControlEntity())
+			return;
+
+		int count = 1;
+		string256 string;
+		string[0] = 1;
+		sscanf(args, "%s %d", &string, &count);
+
+		if (!pSettings->section_exist(string))
+		{
+			//Msg("! Section [%s] isn`t exist...", string);
+			return;
+		}
+		if (!pSettings->line_exist(string, "class") || !pSettings->line_exist(string, "inv_weight") || !pSettings->line_exist(string, "visual"))
+		{
+			//Msg("!Failed to load section!");
+			return;
+		}
+		if (auto* pCurActor = smart_cast<CActor*>(Level().CurrentControlEntity()))
+			for (int i = 0; i < count; ++i)
+				Level().spawn_item(string, pCurActor->Position(), pCurActor->ai_location().level_vertex_id(), pCurActor->ID());
+	}
+	virtual void Info(TInfo& I) { strcpy(I, "name,team,squad,group"); }
+};
 #include "GamePersistent.h"
 
 
@@ -1530,14 +1565,15 @@ void CCC_RegisterCommands()
 #endif // DEBUG
 
 
-	CMD1(CCC_JumpToLevel,	"jump_to_level"		);
-	CMD3(CCC_Mask,			"g_god",			&psActorFlags,	AF_GODMODE	);
-	CMD3(CCC_Mask,			"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
-	CMD1(CCC_Script,		"run_script");
-	CMD1(CCC_ScriptCommand,	"run_string");
-	CMD1(CCC_TimeFactor,	"time_factor");
-	CMD1(CCC_UIReload,		"ui_reload");
-	CMD1(CCC_Money,			"g_add_money");
+	CMD1(CCC_JumpToLevel,				"jump_to_level"		);
+	CMD3(CCC_Mask,						"g_god",			&psActorFlags,	AF_GODMODE	);
+	CMD3(CCC_Mask,						"g_unlimitedammo",	&psActorFlags,	AF_UNLIMITEDAMMO);
+	CMD1(CCC_Script,					"run_script");
+	CMD1(CCC_ScriptCommand,				"run_string");
+	CMD1(CCC_TimeFactor,				"time_factor");
+	CMD1(CCC_UIReload,					"ui_reload");
+	CMD1(CCC_Spawn_to_inventory,		"g_spawn_to_inventory");
+	CMD1(CCC_Money,						"g_add_money");
 #ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
