@@ -167,7 +167,5 @@ protected:
 	void				UpdatePickUpItem();
 public:
 	void				SetPickUpItem	(CInventoryItem* PickUpItem);
-#ifdef DEBUG
 	void				draw_adjust_mode					();
-#endif
 };

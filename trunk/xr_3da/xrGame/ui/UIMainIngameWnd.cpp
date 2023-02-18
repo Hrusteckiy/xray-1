@@ -22,6 +22,7 @@
 #include "../game_cl_base.h"
 #include "../level.h"
 #include "../seniority_hierarchy_holder.h"
+#include "UIDebugFonts.h"
 
 #include "../date_time.h"
 #include "../xrServer_Objects_ALife_Monsters.h"
@@ -40,23 +41,19 @@
 #include "../clsid_game.h"
 #include "UIArtefactPanel.h"
 
-#ifdef DEBUG
 #	include "../attachable_item.h"
 #	include "../../xr_input.h"
-#endif
 
 #include "UIScrollView.h"
 #include "map_hint.h"
 #include "UIColorAnimatorWrapper.h"
 #include "../game_news.h"
 
-#ifdef DEBUG
 #	include "../debug_renderer.h"
 
 void test_draw	();
 void test_key	(int dik);
 void test_update();
-#endif
 
 
 using namespace InventoryUtilities;
@@ -309,9 +306,7 @@ void CUIMainIngameWnd::Draw()
 
 	RenderQuickInfos			();		
 
-#ifdef DEBUG
 	draw_adjust_mode			();
-#endif
 }
 
 
@@ -1171,7 +1166,6 @@ void CUIMainIngameWnd::reset_ui()
 	UIMotionIcon.ResetVisibility	();
 }
 
-#ifdef DEBUG
 /*
 #include "d3dx9core.h"
 #include "winuser.h"
@@ -1360,18 +1354,21 @@ void CUIMainIngameWnd::draw_adjust_mode()
 			parent.transform_tiny	(SP);
 
 
-			RCache.dbg_DrawAABB(FP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(255,0,0));
-			RCache.dbg_DrawAABB(FP2,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,0,255));
-			RCache.dbg_DrawAABB(SP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(0,255,0));
+			CDebugRenderer& render = Level().debug_renderer();
+			render.draw_aabb(FP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(255,0,0));
+			render.draw_aabb(FP2,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,0,255));
+			render.draw_aabb(SP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(0,255,0));
 		
-		}else{
+		}
+		else
+		{
 			Fvector FP = m_pWeapon->get_CurrentFirePoint();
 			Fvector FP2 = m_pWeapon->get_CurrentFirePoint2();
 			Fvector SP = m_pWeapon->get_LastSP();
-			RCache.dbg_DrawAABB(FP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(255,0,0));
-			RCache.dbg_DrawAABB(FP2,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,0,255));
-			RCache.dbg_DrawAABB(SP,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,255,0));
+			CDebugRenderer& render = Level().debug_renderer();
+			render.draw_aabb(FP,0.01f,0.01f,0.01f,D3DCOLOR_XRGB(255,0,0));
+			render.draw_aabb(FP2,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,0,255));
+			render.draw_aabb(SP,0.02f,0.02f,0.02f,D3DCOLOR_XRGB(0,255,0));
 		}
 	}
 }
-#endif
