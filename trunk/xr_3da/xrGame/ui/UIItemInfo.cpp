@@ -29,6 +29,7 @@ CUIItemInfo::CUIItemInfo()
 	UIName						= NULL;
 	m_pInvItem					= NULL;
 	m_b_force_drawing			= false;
+	m_fIconScale				= 1.f;
 }
 
 CUIItemInfo::~CUIItemInfo()
@@ -114,6 +115,7 @@ void CUIItemInfo::Init(LPCSTR xml_name){
 		AttachChild					(UIItemImage);	
 		UIItemImage->SetAutoDelete	(true);
 		xml_init.InitStatic			(uiXml, "image_static", 0, UIItemImage);
+		m_fIconScale				= uiXml.ReadAttribFlt("image_static", 0, "scale", 1);
 		UIItemImage->TextureAvailable(true);
 
 		UIItemImage->TextureOff			();
@@ -202,8 +204,8 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 			v_r.x2 /= 1.328f;
 
 		UIItemImage->GetUIStaticItem().SetRect	(v_r);
-		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x));
-		UIItemImage->SetHeight					(_min(v_r.height(),	UIItemImageSize.y));
+		UIItemImage->SetWidth					(_min(v_r.width(),	UIItemImageSize.x)*m_fIconScale);
+		UIItemImage->SetHeight					(_min(v_r.height(),	UIItemImageSize.y)*m_fIconScale);
 	}
 }
 

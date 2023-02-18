@@ -35,6 +35,7 @@ public:
 
 	virtual void		Draw				();
 	bool				m_b_force_drawing;
+	float				m_fIconScale;
 	CUIStatic*			UIName;
 	CUIStatic*			UIWeight;
 	CUIStatic*			UICost;
