@@ -1540,10 +1540,6 @@ void CCC_RegisterCommands()
 	CMD1(CCC_DebugFonts,		"debug_fonts");
 	CMD1(CCC_TuneAttachableItem,"dbg_adjust_attachable_item");
 
-	// adjust mode support
-	CMD4(CCC_Integer,			"hud_adjust_mode",		&g_bHudAdjustMode,	0, 5);
-	CMD4(CCC_Float,				"hud_adjust_value",		&g_fHudAdjustValue,	0.0f, 1.0f);
-
 	CMD1(CCC_ShowAnimationStats,"ai_show_animation_stats");
 #endif // DEBUG
 	
@@ -1574,6 +1570,10 @@ void CCC_RegisterCommands()
 	CMD1(CCC_UIReload,					"ui_reload");
 	CMD1(CCC_Spawn_to_inventory,		"g_spawn_to_inventory");
 	CMD1(CCC_Money,						"g_add_money");
+
+	// adjust mode support
+	CMD4(CCC_Integer,					"hud_adjust_mode",		&g_bHudAdjustMode,	0, 5);
+	CMD4(CCC_Float,						"hud_adjust_value",		&g_fHudAdjustValue,	0.0f, 1.0f);
 #ifndef MASTER_GOLD
 #endif // MASTER_GOLD
 
